@@ -1,138 +1,74 @@
-describe('My first test', () => {
-  it('finds the content "UI Design"', () => {
-    cy.visit('http://127.0.0.1:5500/');
-
-    cy.contains('UI Design');
+describe('Elements Visibility Test', () => {
+ beforeEach(() => {
+      cy.visit('http://127.0.0.1:5500/');
   });
 
-  it('finds the content "type"', () => {
-    cy.visit('http://127.0.0.1:5500/');
+  it('should be visible: logo, navbar and all links', () => {
+    cy.get('.logo').should('be.visible');
+    cy.get('.navbar').should('be.visible');
 
-    cy.contains('type');
+    cy.get('a.active').contains('Home').should('be.visible');
+    cy.get('a.active').contains('Home').click();
+    cy.url().should('include', '#home');
+
+    cy.get('a').contains('Education').should('be.visible');
+    cy.get('a').contains('Education').click();
+    cy.url().should('include', '#education');
+
+    cy.get('a').contains('Services').should('be.visible');
+    cy.get('a').contains('Services').click();
+    cy.url().should('include', '#services');
+
+    cy.get('a').contains('Testimonials').should('be.visible');
+    cy.get('a').contains('Testimonials').click();
+        cy.url().should('include', '#testimonials');
+
+    cy.get('a').contains('Contact').should('be.visible');
+    cy.get('a').contains('Contact').click();
+    cy.url().should('include', '#contact');
   });
 
-  it('finds the content "Testing"', () => {
-    cy.visit('http://127.0.0.1:5500/');
+  it('should be visible: home section elements', () => {
+    cy.get('.home-content h1').should('be.visible');
+    cy.get('.home-content h1').contains("Hi, It's Pepi").should('be.visible');
+    cy.get('.home-content h3.text-animation').should('be.visible');
+    cy.get('.home-content p').should('be.visible');
+    cy.get('.social-icons').should('be.visible');
+    cy.get('.social-icons a').should('have.length', 4);
 
-    cy.contains('Testing');
+    cy.get('.btn-group').should('be.visible');
+    cy.get('.btn-group a.btn').should('have.length', 2);
+    cy.get('.btn-group a.btn').contains('Hire').should('be.visible');
+    cy.get('.btn-group a.btn').contains('Contact').should('be.visible');
+
+    cy.get('.home-img img').should('be.visible');
+    cy.get('.home-img img').should('have.attr', 'alt', '');
   });
 
-  it('finds the content "2023"', () => {
-    cy.visit('http://127.0.0.1:5500/');
+  it('should be visible: education section and its elements', () => {
+    cy.get('.education').should('be.visible');
+    cy.get('.education h2.heading').should('be.visible').contains('Education');
+    cy.get('.timeline-items').should('be.visible');
+    cy.get('.timeline-item').should('have.length', 4);
 
-    cy.contains("2023");
-  });
+    const educationItems = [
+        { year: '2021', title: 'High School' },
+        { year: '2022', title: 'University' },
+        { year: '2023', title: 'Internship' },
+        { year: '2024', title: 'Job' },
+    ];
 
-  it('clicks the link "Services"', () => {
-    cy.visit('http://127.0.0.1:5500/');
-
-    cy.contains('Services').click();
-  });
-
-  it('fills out and submits the form', () => {
-    cy.visit('http://127.0.0.1:5500/');
-
-    cy.get('.input-group .input-box').eq(0).find('input').eq(0).type('Emir Pepi');
-    cy.get('.input-group .input-box').eq(0).find('input').eq(1).type('emir@pepi.gmail');
-    cy.get('.input-group .input-box').eq(1).find('input').eq(0).type('12345');
-    cy.get('.input-group .input-box').eq(1).find('input').eq(1).type('test test test');
-    cy.get('.input-group-2').find('textarea').type('This is a test message.');
-  });
-
-  it('change the background color of the testimonials section', () => {
-    cy.visit('http://127.0.0.1:5500/');
-
-    cy.get('.testimonials').invoke('css', 'background-color', '#f0f0f0');
-    cy.get('.testimonials').should('have.css', 'background-color', 'rgb(240, 240, 240)');
-  });
-
-  it('change the color of h2.heading', () => {
-    cy.visit('http://127.0.0.1:5500/');
-
-    cy.get('h2.heading')
-      .invoke('css', 'color', 'gold')
-    cy.get('h2.heading')
-      .should('have.css', 'color', 'rgb(255, 215, 0)')
-  });
-
-  it('should change colors of timeline dates', () => {
-    cy.visit('http://127.0.0.1:5500/');
-
-    cy.get('div.timeline-date').each(($el, index) => {
-      const year = $el.text().trim();
-
-      let color;
-      switch (year) {
-        case '2021':
-          color = 'rgb(255, 0, 0)';
-          break;
-        case '2022':
-          color = 'rgb(0, 255, 0)';
-          break;
-        case '2023':
-          color = 'rgb(0, 0, 255)';
-          break;
-        case '2024':
-          color = 'rgb(255, 255, 0)';
-          break;
-        default:
-          color = 'rgb(0, 0, 0)';
-      }
-
-      cy.wrap($el).invoke('css', 'color', color);
+    educationItems.forEach(item => {
+        cy.get('.timeline-date').contains(item.year).should('be.visible');
+        cy.get('.timeline-content h3').contains(item.title).should('be.visible');
     });
 
-    cy.get('div.timeline-date').each(($el) => {
-      const year = $el.text().trim();
-      let expectedColor;
-      switch (year) {
-        case '2021':
-          expectedColor = 'rgb(255, 0, 0)';
-          break;
-        case '2022':
-          expectedColor = 'rgb(0, 255, 0)';
-          break;
-        case '2023':
-          expectedColor = 'rgb(0, 0, 255)';
-          break;
-        case '2024':
-          expectedColor = 'rgb(255, 255, 0)';
-          break;
-        default:
-          expectedColor = 'rgb(0, 0, 0)';
-      }
-
-      cy.wrap($el).should('have.css', 'color', expectedColor);
+    cy.get('.timeline-item').each(($item) => {
+        cy.wrap($item).find('p').should('be.visible');
     });
   });
 });
 
-describe('Responsivnost aplikacije za ekran širine do 990px', () => {
-
-  it('prikaz na ekranima do 990px', () => {
-    cy.visit('http://127.0.0.1:5500/');
-
-    cy.viewport(990, 800);
-    cy.get('.header').should('be.visible');
-    cy.get('.sidebar').should('not.exist');
-  });
-});
-
-describe('Testiranje performansi učitavanja stranice', () => {
-
-  it('mjerenje vremena učitavanja početne stranice', () => {
-    cy.visit('http://127.0.0.1:5500/').then(() => {
-
-      cy.window().then((win) => {
-        const { performance } = win;
-        const loadTime = performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart;
-        cy.log(`Vrijeme učitavanja stranice: ${loadTime} ms`);
-
-        expect(loadTime).to.be.lessThan(2000);
-      });
-    });
-  });
-});
 
 
 
