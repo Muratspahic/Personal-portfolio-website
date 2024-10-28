@@ -295,7 +295,7 @@ span {
 }
 
 .heading {
-    font-size: 8rem;
+    font-size: 50px;
     text-align: center;
     margin: 5rem 0;
 }
@@ -431,7 +431,6 @@ span {
     cursor: pointer;
     transition: 0.4s ease-in-out;
     flex: 1 1 45%;
-    max-width: 45%;
 }
 
 .service-box:hover {

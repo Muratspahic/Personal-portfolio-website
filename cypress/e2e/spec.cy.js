@@ -67,6 +67,86 @@ describe('Elements Visibility Test', () => {
         cy.wrap($item).find('p').should('be.visible');
     });
   });
+
+  it('should exist and be visible', () => {
+    cy.get('#services').should('exist').and('be.visible');
+  });
+
+  it('should contain the correct number of service boxes', () => {
+      cy.get('.service-box').should('have.length', 4);
+  });
+
+  const services = [
+      {
+          title: 'UI Design',
+          description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'
+      },
+      {
+          title: 'Frontend Development',
+          description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'
+      },
+      {
+          title: 'Backend Development',
+          description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'
+      },
+      {
+          title: 'Testing',
+          description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'
+      }
+  ];
+
+  services.forEach((service, index) => {
+    it(`should display service box for ${service.title}`, () => {
+      cy.get('.service-box').eq(index)
+          .should('be.visible')
+          .within(() => {
+            cy.get('h4').should('contain', service.title);
+            cy.get('p').should('contain', service.description);
+          });
+      });
+  });
+
+  it('should exist and be visible', () => {
+    cy.get('#testimonials').should('exist').and('be.visible');
+  });
+
+  it('should contain the correct number of testimonials', () => {
+      cy.get('.testimonial-item').should('have.length', 3);
+  });
+
+  const testimonials = [
+      {
+          name: 'Marilia',
+          image: 'Images/img4.jpg',
+          text: '"Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."'
+      },
+      {
+          name: 'Julia',
+          image: 'Images/img2.jpg',
+          text: '"Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."'
+      },
+      {
+          name: 'Maria',
+          image: 'Images/img3.jpg',
+          text: '"Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."'
+      }
+  ];
+
+  testimonials.forEach((testimonial, index) => {
+      it(`should display testimonial for ${testimonial.name}`, () => {
+          cy.get('.testimonial-item').eq(index)
+              .should('be.visible')
+              .within(() => {
+                  cy.get('img').should('have.attr', 'src', testimonial.image);
+                  cy.get('h2').should('contain', testimonial.name);
+                  cy.get('p').should('contain', testimonial.text);
+              });
+      });
+
+      it(`should display the correct number of stars for ${testimonial.name}`, () => {
+          cy.get('.testimonial-item').eq(index).find('.rating i').should('have.length', 5);
+      });
+  });
 });
 
 
