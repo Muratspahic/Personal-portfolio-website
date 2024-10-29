@@ -147,10 +147,33 @@ describe('Elements Visibility Test', () => {
           cy.get('.testimonial-item').eq(index).find('.rating i').should('have.length', 5);
       });
   });
+
+    it('should fill out the form and submit', () => {
+        cy.get('.input-group .input-box').eq(0).find('input').eq(0).type('Emir Pepi');
+        cy.get('.input-group .input-box').eq(0).find('input').eq(1).type('emir@pepi.gmail');
+        cy.get('.input-group .input-box').eq(1).find('input').eq(0).type('12345');
+        cy.get('.input-group .input-box').eq(1).find('input').eq(1).type('test test test');
+        cy.get('.input-group-2').find('textarea').type('This is a test message.');
+    });
+
+    it('should display social media icons', () => {
+        cy.get('.footer .social a').should('be.visible').and('have.length', 4);
+    });
+
+    it('should display the footer links', () => {
+        cy.get('.footer .list li a')
+          .should('be.visible')
+          .and('have.length', 5);
+    });
+
+    it('should display the copyright notice', () => {
+        cy.get('.footer .copyright').should('be.visible')
+          .and('contain', '© Emir Pepi | All Rights Reserved');
+    });
+
+    it('should have functional links', () => {
+        cy.get('.footer .list li a').each($link => {
+            cy.wrap($link).should('have.attr', 'href').and('not.be.empty');
+        });
+    });
 });
-
-
-
-
-
-
